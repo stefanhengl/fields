@@ -93,4 +93,3 @@
         children (right-locs (z/down loc))]
     (apply merge (map (partial walk m) children))))
 
-(select-keys-by-fields {:a [{:b 1 :c 2} {:b 1 :c 2}]} "(a(b,c))")

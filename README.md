@@ -20,8 +20,8 @@ filtering the map along the way.
 
 ```clojure
 (def data {:a 1
-	       :b [{:aa 2 :bb 3} {:aa 4 :bb 5}]
-	       :c {:cc 6 :dd {:fff 7 :ggg 8}}})
+	:b [{:aa 2 :bb 3} {:aa 4 :bb 5}]
+	:c {:cc 6 :dd {:fff 7 :ggg 8}}})
 
 (select-keys-by-fields data "(a)")
 => {:a 1}

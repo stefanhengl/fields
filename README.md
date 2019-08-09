@@ -1,5 +1,4 @@
-# fields [![Build
-Status](https://travis-ci.com/stefanhengl/pdfsplit.svg?branch=master)](https://travis-ci.com/stefanhengl/pdfsplit)
+# fields [![Build Status](https://travis-ci.com/stefanhengl/pdfsplit.svg?branch=master)](https://travis-ci.com/stefanhengl/pdfsplit)
 
 `fields` exposes the function `select-keys-by-fields` which offers the
 same functionality as

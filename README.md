@@ -1,6 +1,4 @@
-# fields
-
-[![Build
+# fields [![Build
 Status](https://travis-ci.com/stefanhengl/pdfsplit.svg?branch=master)](https://travis-ci.com/stefanhengl/pdfsplit)
 
 `fields` exposes the function `select-keys-by-fields` which offers the
@@ -32,6 +30,10 @@ filtering the map along the way.
 (select-keys-by-fields data "(b,c(cc,dd(ggg)))")
 => {:b ({:aa 2, ::bb 3} {:aa 4, :bb 5}), :c {:cc 6, :dd {:ggg 8}}}
 ```
+
+## Latest Version
+
+[![Clojars Project](https://img.shields.io/clojars/v/fields.svg)](https://clojars.org/fields)
 
 ## License
  MIT

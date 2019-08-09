@@ -2,49 +2,20 @@
   (:require [clojure.test :refer :all]
             [fields.core :refer :all]))
 
-(def test-map {:series [
-                        {
-                         :title "Chernobyl"
-                         :genres ["Drama" "History" "Thriller"]
-                         :rating "9.5"
-                         :seasons [
-                                   {
-                                    :season 1
-                                    :year 2019
-                                    :episodes [
-                                               {:title "1:23:45" :rating "9.5" :director {:first "Johan" :last "Renck"}}
-                                               {:title "Please Remain Calm" :rating "9.7" :director {:first "Johan" :last "Renck"}}
-                                               {:title "Open Wide, O Earth" :rating "9.6"  :director {:first "Johan" :last "Renck"}}
-                                               ]
-                                    }
-                                   ]
-                         }
-                        ]
-               :movies [
-                        {:title "The Shawshank Redemption" :year 1994 :rating "9.3" :director {:first "Frank" :last "Darabont"}}
-                        ]}
-  )
+(def data {:a 1
+	   :b [{:aa 2 :bb 3} {:aa 4 :bb 5}]
+	   :c {:cc 6 :dd {:aaa 7 :bbb 8}}
+           :d [{:ee [{:ccc [{:aaaa 1 :bbbb 2} {:aaaa 3 :bbbb 4}]}]}]})
 
-(select-keys-by-fields test-map "(series(seasons(season)))")
+(deftest queries
+  (is (= {:a 1} (select-keys-by-fields data "(a)")))
+  (is (= {:a 1, :b [{:aa 2} {:aa 4}]} (select-keys-by-fields data "(a,b(aa))")))
+  (is (= {:b [{:aa 2, :bb 3} {:aa 4, :bb 5}], :c {:cc 6, :dd {:bbb 8}}} (select-keys-by-fields data "(b,c(cc,dd(bbb)))") ))
+  (is (= {:a 1 :d [{:ee [{:ccc [{:bbbb 2} {:bbbb 4}]}]}]} (select-keys-by-fields data "(a,d(ee(ccc(bbbb))))"))))
 
+(deftest nil-query
+  (is (= data (select-keys-by-fields data nil))))
 
-(deftest deeplt-nested-query
-  (let [query "(series(title,seasons(season,episodes(director))),movies(director))"
-        result (select-keys-by-fields test-map query)
-        expected {:series [
-                           {
-                            :title "Chernobyl"
-                            :seasons [
-                                   {:season 1
-                                    :episodes [
-                                               {:director {:first "Johan" :last "Renck"}}
-                                               {:director {:first "Johan" :last "Renck"}}
-                                               {:director {:first "Johan" :last "Renck"}}
-                                               ]
-                                    }]}]
-               :movies [
-                        {:director {:first "Frank" :last "Darabont"}}
-                        ]
-               }
-        ]
-    (is (= expected result))))
+(deftest empty-query
+  (is (= {} (select-keys-by-fields data "()")))
+  (is (= {} (select-keys-by-fields data ""))))

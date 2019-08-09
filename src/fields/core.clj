@@ -89,7 +89,10 @@
           {anchor ((fn [o] (apply merge (map (partial walk o) children)))(anchor m))})))))
   
 (defn select-keys-by-fields [m query]
-  (let [loc (parse query)
-        children (right-locs (z/down loc))]
-    (apply merge (map (partial walk m) children))))
+  (if (nil? query)
+    m
+    (do
+      (let [loc (parse query)
+            children (right-locs (z/down loc))]
+        (apply merge (map (partial walk m) children))))))
 

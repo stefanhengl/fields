@@ -38,3 +38,9 @@
   (def parse-memo (memoize parse))
   (is (= (parse-memo "(a,b(aa))") (parse "(a,b(aa))")))
   (is (= (parse-memo "(a,b(aa))") (parse "(a,b(aa))"))))
+
+(deftest query-by-zippers-memoized
+  (def parse-memo (memoize parse))
+  (doseq [[expected query] test-table]
+    (is (= expected (select-keys-by-zipper data (parse-memo query))))))
+

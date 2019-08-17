@@ -35,6 +35,7 @@ The parser which parses a query string and outputs a zipper is a pure function t
 ``` clojure
 (def parse-memo (memoize parse))
 (select-keys-by-zipper data (parse-memo "(a,b(aa))"))
+=> {:a 1, :b ({:aa 2} {:aa 4})}
 ```
 
 ## Latest Version

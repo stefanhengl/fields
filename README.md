@@ -30,9 +30,17 @@ filtering the map along the way.
 => {:b ({:aa 2, ::bb 3} {:aa 4, :bb 5}), :c {:cc 6, :dd {:ggg 8}}}
 ```
 
+The parser which parses a query string and outputs a zipper is a pure function that is worth caching whenever you have many differnt maps but only a small set of queries. For such use cases you can just memozie the parser and use `select-keys-by-zipper` instead of `select-keys-by-fields`.
+
+``` clojure
+(def parse-memo (memoize parse))
+(select-keys-by-zipper data (parse-memo "(a,b(aa))"))
+```
+
 ## Latest Version
 
 [![Clojars Project](https://img.shields.io/clojars/v/fields.svg)](https://clojars.org/fields)
 
 ## License
  MIT
+

@@ -45,7 +45,7 @@
                          (fn [node, children] {:children children :value (node :value)})
                          {:children [] :value nil}))
 
-(defn- parse
+(defn parse
   "Parses a query into a zipper/tree."
   [query]
   (let [p (newParser (lexer query))]
@@ -88,11 +88,18 @@
           {anchor (map (fn [o] (apply merge (map (partial walk o) children))) (anchor m))}
           {anchor ((fn [o] (apply merge (map (partial walk o) children)))(anchor m))})))))
   
-(defn select-keys-by-fields [m query]
+(defn select-keys-by-fields
+  [m query]
   (if (nil? query)
     m
     (do
       (let [loc (parse query)
             children (right-locs (z/down loc))]
         (apply merge (map (partial walk m) children))))))
+
+
+(defn select-keys-by-zipper
+  [m loc]
+  (let [children (right-locs (z/down loc))]
+    (apply merge (map (partial walk m) children))))
 
